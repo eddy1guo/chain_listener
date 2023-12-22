@@ -39,11 +39,11 @@ struct Text {
     text: String,
 }
 
-async fn notify_lark(pushed_msg: String) -> Result<(), Box<dyn std::error::Error>> {
+async fn notify_lark(pushed_msg: &str) -> Result<(), Box<dyn std::error::Error>> {
     //println!("increase_ratio {},increase_volume {}",increase_price,increase_volume);
     let data = Msg {
         msg_type: "text".to_string(),
-        content: Text { text: pushed_msg },
+        content: Text { text: pushed_msg.to_owned() },
     };
     let client = reqwest::Client::new();
     let res = client
@@ -180,7 +180,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("{:?}", chain_info);
     let mut current_height = chain_info.blocks;
     let test1 = format!("btc {}", current_height);
-    notify_lark(test1).await.unwrap();
+    notify_lark(&test1).await.unwrap();
     let empty_witness = "0000000000000000000000000000000000000000000000000000000000000000".to_string();
 
     loop {
@@ -209,7 +209,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
                 let data = String::from_utf8(inscription).expect("Invalid UTF-8 sequence");
                 let data = format!("find a brc20 transaction data {}, at block index {} txid {}", data, index,tx);
-                notify_lark(data).await.unwrap();
+                notify_lark(&data).await.unwrap();
                 println!("{}",data);
             }
         }
