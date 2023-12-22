@@ -1,0 +1,9 @@
+.idea
+*.lock
+target
+node_modules
+package-lock.json
+*nohup*
+**out
+*.txt
+*_bak*
